@@ -3,239 +3,64 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>icaanzganteng AI - Dino Chat</title>
+    <title>icaanzganteng AI</title>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
     <style>
-        /* --- CSS VARIABLES & RESET --- */
-        :root {
-            --primary-color: #88d498; /* Hijau Dino Cute */
-            --secondary-color: #f3f9f1; /* Putih Tulang Lembut */
-            --text-color: #333;
-            --bot-msg-bg: #e1f7e7;
-            --user-msg-bg: #88d498;
-            --font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        body {
-            font-family: var(--font-family);
-            background-color: var(--secondary-color);
-            color: var(--text-color);
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-        }
-
-        /* --- HEADER --- */
-        header {
-            background-color: white;
-            padding: 15px 20px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-            display: flex;
-            align-items: center;
-            justify-content: center; /* Judul jadi di tengah biar lebih rapi */
-            position: sticky;
-            top: 0;
-            z-index: 10;
-        }
-
-        .header-logo {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .dino-icon {
-            font-size: 30px;
-        }
-
-        header h1 {
-            font-size: 1.2rem;
-            color: var(--primary-color);
-            font-weight: 700;
-        }
-
-        /* --- CHAT CONTAINER --- */
-        #chat-container {
-            flex: 1;
-            overflow-y: auto;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            scroll-behavior: smooth;
-        }
-
-        /* --- MESSAGES STYLING --- */
-        .message {
-            max-width: 80%;
-            padding: 12px 16px;
-            border-radius: 18px;
-            font-size: 0.95rem;
-            line-height: 1.4;
-            position: relative;
-            word-wrap: break-word;
-            animation: fadeIn 0.3s ease;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .message.bot {
-            align-self: flex-start;
-            background-color: var(--bot-msg-bg);
-            border-bottom-left-radius: 4px;
-            color: #1a531a;
-        }
-
-        .message.bot::before {
-            content: '🦖';
-            position: absolute;
-            left: -25px;
-            top: 10px;
-            font-size: 1.2rem;
-        }
-
-        .message.user {
-            align-self: flex-end;
-            background-color: var(--user-msg-bg);
-            color: white;
-            border-bottom-right-radius: 4px;
-        }
-
-        .message-time {
-            font-size: 0.7rem;
-            opacity: 0.7;
-            margin-top: 5px;
-            display: block;
-        }
-        .message.user .message-time { text-align: right; color: #f0f0f0;}
-
-        /* --- INPUT AREA --- */
-        #input-area {
-            background-color: white;
-            padding: 15px;
-            box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
-            display: flex;
-            gap: 10px;
-            align-items: center;
-        }
-
-        #user-input {
-            flex: 1;
-            padding: 12px 15px;
-            border: 2px solid #eee;
-            border-radius: 25px;
-            outline: none;
-            font-size: 1rem;
-            transition: border-color 0.3s;
-        }
-
-        #user-input:focus {
-            border-color: var(--primary-color);
-        }
-
-        #send-btn {
-            background-color: var(--primary-color);
-            color: white;
-            border: none;
-            padding: 12px 20px;
-            border-radius: 25px;
-            cursor: pointer;
-            font-weight: bold;
-            transition: background-color 0.3s, transform 0.1s;
-        }
-
-        #send-btn:hover {
-            background-color: #6fc081;
-        }
-
-        #send-btn:active {
-            transform: scale(0.95);
-        }
-
-        /* --- FOOTER --- */
-        footer {
-            background-color: #f9f9f9;
-            text-align: center;
-            padding: 10px;
-            font-size: 0.8rem;
-            color: #888;
-            border-top: 1px solid #eee;
-        }
-
-        @media (max-width: 600px) {
-            .message { max-width: 90%; }
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background-color: #0b0f19; color: #e2e8f0; display: flex; flex-direction: column; height: 100vh; }
+        header { background-color: #111827; padding: 15px; text-align: center; font-weight: bold; font-size: 1.2rem; border-bottom: 2px solid #1f2937; color: #38bdf8; position: relative; }
+        .sub-title { font-size: 0.8rem; color: #9ca3af; font-weight: normal; margin-top: 2px; }
+        .chat-container { flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 15px; }
+        .message { max-width: 75%; padding: 12px 16px; border-radius: 18px; line-height: 1.4; font-size: 0.95rem; word-break: break-word; }
+        .user-message { background-color: #0284c7; color: white; align-self: flex-end; border-bottom-right-radius: 2px; }
+        .bot-message { background-color: #1f2937; color: #e2e8f0; align-self: flex-start; border-bottom-left-radius: 2px; border: 1px solid #374151; }
+        .typing { color: #9ca3af; font-style: italic; font-size: 0.85rem; padding-left: 5px; }
+        .input-container { padding: 15px; background-color: #111827; display: flex; gap: 10px; border-top: 2px solid #1f2937; }
+        input { flex: 1; padding: 12px 18px; border-radius: 25px; border: 1px solid #374151; background-color: #1f2937; color: white; font-size: 0.95rem; outline: none; }
+        input:focus { border-color: #38bdf8; }
+        button { background-color: #0284c7; color: white; border: none; padding: 0 20px; border-radius: 25px; font-weight: bold; cursor: pointer; transition: background 0.2s; }
+        button:hover { background-color: #0369a1; }
     </style>
 </head>
 <body>
 
     <header>
-        <div class="header-logo">
-            <span class="dino-icon">🦖</span>
-            <h1>icaanzganteng AI</h1>
-        </div>
+        🦖 icaanzganteng AI 🦖
+        <div class="sub-title">Chatbot Dino Paling Tampan & Toxic</div>
     </header>
 
-    <div id="chat-container">
-        <div class="message bot">
-            slmt dtng di lapak <strong>icaanzganteng AI</strong>. 🦖<br>
-            Mo tny apa nn? Jng bny tny kta sbk..
-            <span class="message-time">10:00 AM</span>
-        </div>
+    <div class="chat-container" id="chatContainer">
+        <div class="message bot-message">Paan lu? Mau nanya apaan ama gw yang ganteng ini? Nanya yang bermutu dikit ya, ndasmu jangan ditaruh di rumah! 🦖🔥</div>
     </div>
 
-    <div id="input-area">
-        <input type="text" id="user-input" placeholder="Kirim pesan ke ganteng">
-        <button id="send-btn">Kirim</button>
+    <div class="input-container">
+        <input type="text" id="userInput" placeholder="Kirim pesan ke ganteng..." onkeydown="if(event.key === 'Enter') sendMessage()">
+        <button onclick="sendMessage()">Kirim</button>
     </div>
-
-    <footer>
-        Copyright by icaanz 2026. All rights reserved.
-    </footer>
 
     <script>
-        const chatContainer = document.getElementById('chat-container');
-        const userInput = document.getElementById('user-input');
-        const sendBtn = document.getElementById('send-btn');
+        const chatContainer = document.getElementById('chatContainer');
+        const userInput = document.getElementById('userInput');
 
-        function addMessage(text, sender) {
-            const messageDiv = document.createElement('div');
-            messageDiv.classList.add('message', sender);
-            
-            const now = new Date();
-            const timeString = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-
-            messageDiv.innerHTML = `${text}<span class="message-time">${timeString}</span>`;
-            chatContainer.appendChild(messageDiv);
-            chatContainer.scrollTop = chatContainer.scrollHeight;
-        }
-
-        async function handleSend() {
+        async function sendMessage() {
             const text = userInput.value.trim();
-            if (text === "") return;
+            if (!text) return;
 
-            addMessage(text, 'user');
-            userInput.value = ''; 
+            // Tampilkan pesan user
+            appendMessage(text, 'user-message');
+            userInput.value = '';
 
-            // Efek loading
-            const loadingId = 'loading-' + Date.now();
-            const loadingDiv = document.createElement('div');
-            loadingDiv.classList.add('message', 'bot');
-            loadingDiv.id = loadingId;
-            loadingDiv.innerHTML = `<em>Lagi mikir, sabar napa...</em>`;
-            chatContainer.appendChild(loadingDiv);
+            // Tampilkan status ngetik
+            const typingId = 'typing-' + Date.now();
+            const typingDiv = document.createElement('div');
+            typingDiv.className = 'typing';
+            typingDiv.id = typingId;
+            typingDiv.innerText = 'Si ganteng lagi mikir ketikan maut...';
+            chatContainer.appendChild(typingDiv);
             chatContainer.scrollTop = chatContainer.scrollHeight;
 
             try {
+                // DI SINI PERBAIKANNYA: Menggunakan path relatif /api/chat agar Vercel membaca fungsi backend kita
                 const response = await fetch('/api/chat', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -243,22 +68,28 @@
                 });
 
                 const data = await response.json();
-                
-                const loader = document.getElementById(loadingId);
-                if(loader) loader.remove();
-                addMessage(data.reply, 'bot');
+                document.getElementById(typingId).remove();
 
+                if (response.ok && data.reply) {
+                    appendMessage(data.reply, 'bot-message');
+                    // Bonus confetti tipis-tipis biar asik pas AI sukses bales
+                    confetti({ particleCount: 40, spread: 60, origin: { y: 0.8 } });
+                } else {
+                    appendMessage("Yailah error, servernya ngambek kali. Coba cek API Key lu di Vercel, cok!", 'bot-message');
+                }
             } catch (error) {
-                const loader = document.getElementById(loadingId);
-                if(loader) loader.remove();
-                addMessage("Yailah error, servernya ngambek kali.", 'bot');
+                if (document.getElementById(typingId)) document.getElementById(typingId).remove();
+                appendMessage("Gagal konek ke server. Lu punya kuota gak sih?", 'bot-message');
             }
         }
 
-        sendBtn.addEventListener('click', handleSend);
-        userInput.addEventListener('keypress', function (e) {
-            if (e.key === 'Enter') handleSend();
-        });
+        function appendMessage(text, className) {
+            const msgDiv = document.createElement('div');
+            msgDiv.className = `message ${className}`;
+            msgDiv.innerText = text;
+            chatContainer.appendChild(msgDiv);
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
     </script>
 </body>
 </html>

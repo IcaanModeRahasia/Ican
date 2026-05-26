@@ -4,10 +4,12 @@ export default async function handler(req, res) {
     }
 
     const { message } = req.body;
-    const apiKey = process.env.GEMINI_API_KEY;
+    
+    // KUNCI API GEMINI LU UDAH GW SATUIN LANGSUNG DI SINI, TO!
+    const apiKey = "AIzaSyCSPsF4fKS7bnvfOoHf5ZZtE4HZqgkmYWo"; 
 
     if (!apiKey) {
-        return res.status(500).json({ error: 'API Key belum dipasang di Vercel, cok!' });
+        return res.status(500).json({ error: 'Kuncinya mana, cok? Jangan dikosongin!' });
     }
 
     // PROMPT BIAR AI LU TOXIC TAPI PINTER
